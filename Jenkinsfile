@@ -54,6 +54,7 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.newApp("mapit:latest", "--name=mapit-dev").narrow('svc').expose()
+            sh 'oc volume dc/mapit-dev --add --claim-size 1Gi --mount-path /var/lib/pgsql/data --name postgresql-data'
           }
         }
       }
@@ -79,6 +80,7 @@ pipeline {
         script {
           openshift.withCluster() {
             openshift.newApp("mapit:stage", "--name=mapit-stage").narrow('svc').expose()
+            sh 'oc volume dc/mapit-stage --add --claim-size 1Gi --mount-path /var/lib/pgsql/data --name postgresql-data'
           }
         }
       }
