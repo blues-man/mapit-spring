@@ -49,6 +49,16 @@ objects:
     - imageChange: {}
       type: ImageChange
 - apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: postgres-data
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: ${POSTGRES_VOLUME_SIZE}
+- apiVersion: v1
   kind: DeploymentConfig
   metadata:
     name: ${APP_NAME}
@@ -215,7 +225,8 @@ objects:
         terminationGracePeriodSeconds: 60
         volumes:
         - name: ${APP_NAME}-postgresql-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: postgres-data
     triggers:
     - imageChangeParams:
         automatic: true
@@ -267,4 +278,9 @@ parameters:
   from: '[a-zA-Z0-9]{8}'
   generate: expression
   name: DB_PASSWORD
+  required: true
+- description: MapIt database PV size
+  displayName: PostgreSQL Database PV size
+  name: POSTGRES_VOLUME_SIZE
+  value: 1Gi
   required: true
