@@ -5,10 +5,12 @@
                     volumes: [persistentVolumeClaim(mountPath: '/home/jenkins/.m2', claimName: 'maven-claim', readOnly: false) ]
               ) {
   node("maven-persistent") {
+   
+   stage('Checkout Source') {
+        git url: "https://github.com/blues-man/mapit-spring.git"
+    }
     stage('Build App') {
-     script {
         sh "mvn install"
-     }
     }
     stage('Create Image Builder') {
       when {
