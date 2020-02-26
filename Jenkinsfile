@@ -6,7 +6,9 @@
               ) {
   node("maven-persistent") {
     stage('Build App') {
+     script {
         sh "mvn install"
+     }
     }
     stage('Create Image Builder') {
       when {
