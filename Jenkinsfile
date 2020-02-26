@@ -1,8 +1,10 @@
-pipeline {
-  agent {
-      label 'maven'
-  }
-  stages {
+ podTemplate(label: 'maven-s',
+                    cloud: 'openshift',
+                    inheritFrom: 'maven',
+                    name: 'maven-persistent',
+                    volumes: [persistentVolumeClaim(mountPath: '/home/jenkins/.m2', claimName: 'maven-claim', readOnly: false) ]
+              ) {
+  node("maven-persistent") {
     stage('Build App') {
       steps {
         sh "mvn install"
