@@ -1,4 +1,4 @@
- podTemplate(label: 'maven-s',
+ podTemplate(label: 'maven-persistent',
                     cloud: 'openshift',
                     inheritFrom: 'maven',
                     name: 'maven-persistent',
