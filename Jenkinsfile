@@ -6,6 +6,8 @@
               ) {
   node("maven-persistent") {
    
+   stages {
+   
    stage('Checkout Source') {
         git url: "https://github.com/blues-man/mapit-spring.git"
     }
@@ -77,5 +79,6 @@
         }
       }
     }
+   }
   }
 }
